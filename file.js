@@ -12,7 +12,10 @@ let generateComputerChoice = () => {
 console.log(generateComputerChoice());
 
 // Take in user choice and process versus computer
-function handleUserChoice(computerSelection) {
+function handleUserChoice() {
+  let submitButton = document.getElementById('submit-button');
+  submitButton.disabled = true; // Disable the button
+
   let userChoiceInput = document.getElementById('user-choice');
   let userChoice = userChoiceInput.value.trim().toLowerCase();
   let statusMessageElement = document.getElementById('status-message');
@@ -20,17 +23,20 @@ function handleUserChoice(computerSelection) {
   if (!selections.includes(userChoice)) {
     statusMessageElement.classList.add('alert', 'alert-danger');
     statusMessageElement.innerHTML = 'Error - invalid input';
+    submitButton.disabled = false; // Re-enable the button
     return 'nil';
   }
 
-  if (userChoice === computerSelection) {
+  let computerChoice = generateComputerChoice();
+
+  if (userChoice === computerChoice) {
     // It's a tie
     statusMessageElement.classList.add('alert', 'alert-warning');
     statusMessageElement.innerHTML = 'It\'s a tie!';
   } else if (
-    (userChoice === 'rock' && computerSelection === 'scissors') ||
-    (userChoice === 'paper' && computerSelection === 'rock') ||
-    (userChoice === 'scissors' && computerSelection === 'paper')
+    (userChoice === 'rock' && computerChoice === 'scissors') ||
+    (userChoice === 'paper' && computerChoice === 'rock') ||
+    (userChoice === 'scissors' && computerChoice === 'paper')
   ) {
     // User wins
     statusMessageElement.classList.add('alert', 'alert-success');
@@ -40,5 +46,6 @@ function handleUserChoice(computerSelection) {
     statusMessageElement.classList.add('alert', 'alert-secondary');
     statusMessageElement.innerHTML = 'Computer wins! Better luck next time';
   }
+
   submitButton.disabled = false; // Re-enable the button
 }
